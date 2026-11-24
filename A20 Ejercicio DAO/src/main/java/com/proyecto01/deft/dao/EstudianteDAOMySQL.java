@@ -1,14 +1,18 @@
 package com.proyecto01.deft.dao;
 
 import com.proyecto01.deft.modelo.Estudiante;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EstudianteDAOMySQL implements DAO<Estudiante> {
-    private static final String URL = "jdbc:mysql://localhost:3306/universidad_db?useSSL=false&serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/universidad_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
     private static final String USER = "root";
-    private static final String PASS = "1105luis";
+    private static final String PASS = "nava20";
 
     @Override
     public void guardar(Estudiante est) {
@@ -19,6 +23,7 @@ public class EstudianteDAOMySQL implements DAO<Estudiante> {
             pstat.setString(2, est.getNombre());
             pstat.executeUpdate();
         } catch (SQLException e) {
+            System.err.println("Error al guardar estudiante en MySQL: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -34,6 +39,7 @@ public class EstudianteDAOMySQL implements DAO<Estudiante> {
                 lista.add(new Estudiante(rs.getInt("id"), rs.getString("nombre")));
             }
         } catch (SQLException e) {
+            System.err.println("Error al obtener estudiantes de MySQL: " + e.getMessage());
             e.printStackTrace();
         }
         return lista;
